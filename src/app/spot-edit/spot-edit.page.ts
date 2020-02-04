@@ -15,9 +15,8 @@ export class SpotEditPage implements OnInit {
   id: string;
   spot: ISpot;
   spotForm: FormGroup;
-  activatedrouter: any;
 
-  constructor(private router: Router, private spotdbService: SpotdbService, public toastController: ToastController) { }
+  constructor(private activatedrouter: ActivatedRoute,private router: Router, private spotdbService: SpotdbService, public toastController: ToastController) { }
 
   ngOnInit() {
 
@@ -37,4 +36,39 @@ export class SpotEditPage implements OnInit {
       description: new FormControl(''),
     });
   }
+
+  async onSubmit() {
+    const toast = await this.toastController.create({
+      header: 'Guardar Spot',
+      position: 'top',
+      buttons: [
+        {
+          side: 'start',
+          icon: 'save',
+          text: 'ACEPTAR',
+          handler: () => {
+            this.saveSpot();
+            this.router.navigate(['home']);
+          }
+        }, {
+          text: 'CANCELAR',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    toast.present();
+  }
+  saveSpot() {
+    this.spotdbService.remove(this.id);
+    this.spot = this.spotForm.value;
+    let nextKey = this.spot.title.trim();
+    this.spot.id = nextKey;
+    this.spotdbService.setItem(nextKey, this.spot);
+    console.warn(this.spotForm.value);
+  }
+
+
 }
