@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ISpot } from '../shared/spot';
 import { SpotdbService } from '../core/spotdbservice.service';
 import { ToastController } from '@ionic/angular';
+import { SpotcrudService } from '../core/spotcrud.service';
 
 @Component({
   selector: 'app-spot-edit',
@@ -16,19 +17,12 @@ export class SpotEditPage implements OnInit {
   spot: ISpot;
   spotForm: FormGroup;
 
-  constructor(private activatedrouter: ActivatedRoute,private router: Router, private spotdbService: SpotdbService, public toastController: ToastController) { }
+  constructor(private activatedrouter: ActivatedRoute,private router: Router, private spotcrudService: SpotcrudService, public toastController: ToastController) { }
 
   ngOnInit() {
 
     this.id = this.activatedrouter.snapshot.params.id;
-    this.spotdbService.getItem(this.id).then(
-      (data: ISpot) => {
-        this.spot = data
-        this.spotForm.get('title').setValue(this.spot.title);
-        this.spotForm.get('image').setValue(this.spot.image);
-        this.spotForm.get('description').setValue(this.spot.description);
-      }
-    );
+    
 
     this.spotForm = new FormGroup({
       title: new FormControl(''),
@@ -47,7 +41,7 @@ export class SpotEditPage implements OnInit {
           icon: 'save',
           text: 'ACEPTAR',
           handler: () => {
-            this.saveSpot();
+            this.EditRecord(this.spot);
             this.router.navigate(['home']);
           }
         }, {
@@ -61,14 +55,16 @@ export class SpotEditPage implements OnInit {
     });
     toast.present();
   }
-  saveSpot() {
-    this.spotdbService.remove(this.id);
-    this.spot = this.spotForm.value;
-    let nextKey = this.spot.title.trim();
-    this.spot.id = nextKey;
-    this.spotdbService.setItem(nextKey, this.spot);
-    console.warn(this.spotForm.value);
+
+  
+  EditRecord(record) {
+    record.isEdit = true;
+    record.EditTitle = record.title;
+    record.EditImage = record.image;
+    record.EditDescription = record.Description;
   }
+
+  
 
 
 }

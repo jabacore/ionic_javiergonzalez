@@ -4,6 +4,7 @@ import { ISpot } from '../shared/spot';
 import { SpotdbService } from '../core/spotdbservice.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { SpotcrudService } from '../core/spotcrud.service';
 
 @Component({
   selector: 'app-spot-new',
@@ -11,19 +12,18 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./spot-new.page.scss'],
 })
 export class SpotNewPage implements OnInit {
-
-  spot: ISpot;
+  
   spotForm: FormGroup;
 
 
-  constructor(private router: Router, private spotdbService: SpotdbService, public toastController: ToastController) { }
+  constructor(private router: Router, private spotcrudService: SpotcrudService, public toastController: ToastController) { }
 
   ngOnInit() {
 
     this.spotForm = new FormGroup({
-      title: new FormControl(''),
-      image: new FormControl(''),
-      description: new FormControl(''),
+      spotTitle: new FormControl(''),
+      spotImage: new FormControl(''),
+      spotDescription: new FormControl(''),
     });
   }
 
@@ -37,7 +37,7 @@ export class SpotNewPage implements OnInit {
           icon: 'save',
           text: 'ACEPTAR',
           handler: () => {
-            this.saveSpot();
+            this.CreateRecord();
             this.router.navigate(['home']);
           }
         }, {
@@ -52,12 +52,18 @@ export class SpotNewPage implements OnInit {
     toast.present();
   }
 
-  saveSpot() {
-    this.spot = this.spotForm.value;
-    let nextKey = this.spot.title.trim();
-    this.spot.id = nextKey;
-    this.spotdbService.setItem(nextKey, this.spot);
-    console.warn(this.spotForm.value);
+
+  CreateRecord() {
+    let record = {};
+    record['title'] = this.spotForm.controls.spotTitle;
+    record['image'] = this.spotForm.controls.spotImage;
+    record['description'] = this.spotForm.controls.spotDescription;
+    this.spotcrudService.create_Spot(record).then(resp => {
+      console.log(resp);
+    })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
 
