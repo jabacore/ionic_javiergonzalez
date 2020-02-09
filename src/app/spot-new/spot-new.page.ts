@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { ISpot } from '../shared/spot';
-import { SpotdbService } from '../core/spotdbservice.service';
+import { Spot } from '../shared/spot';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { SpotcrudService } from '../core/spotcrud.service';
-
+import { SpotService } from '../shared/spot.service';
 @Component({
   selector: 'app-spot-new',
   templateUrl: './spot-new.page.html',
@@ -13,57 +11,54 @@ import { SpotcrudService } from '../core/spotcrud.service';
 })
 export class SpotNewPage implements OnInit {
   
+  pageTitle = 'Spot New';
+  errorMessage: string;
   spotForm: FormGroup;
+  
+  spotId:number;
+  spot: Spot;
 
-
-  constructor(private router: Router, private spotcrudService: SpotcrudService, public toastController: ToastController) { }
+  constructor(private fb: FormBuilder,
+    private activatedroute: ActivatedRoute,
+    private router: Router,
+    private spotService: SpotService) {  }
 
   ngOnInit() {
-
-    this.spotForm = new FormGroup({
-      spotTitle: new FormControl(''),
-      spotImage: new FormControl(''),
-      spotDescription: new FormControl(''),
+    this.spotForm = this.fb.group({
+      title: ['', [Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50)]],   
+      description: '',
+      image: ''
     });
+     // Read the spots Id from the route parameter
+     this.spotId = parseInt(this.activatedroute.snapshot.params['spotId']);
   }
 
-  async onSubmit() {
-    const toast = await this.toastController.create({
-      header: 'Guardar Spot',
-      position: 'top',
-      buttons: [
-        {
-          side: 'start',
-          icon: 'save',
-          text: 'ACEPTAR',
-          handler: () => {
-            this.CreateRecord();
-            this.router.navigate(['home']);
-          }
-        }, {
-          text: 'CANCELAR',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    toast.present();
+  saveSpot(): void {
+    if (this.spotForm.valid) {
+      if (this.spotForm.dirty) {
+        this.spot = this.spotForm.value;
+        this.spot.id = this.spotId;
+        
+        this.spotService.createSpot(this.spot)
+          .subscribe(
+            () => this.onSaveComplete(),
+            (error: any) => this.errorMessage = <any>error
+          );
+        
+      } else {
+        this.onSaveComplete();
+      }
+    } else {
+      this.errorMessage = 'Please correct the validation errors.';
+    }
   }
 
-
-  CreateRecord() {
-    let record = {};
-    record['title'] = this.spotForm.controls.spotTitle;
-    record['image'] = this.spotForm.controls.spotImage;
-    record['description'] = this.spotForm.controls.spotDescription;
-    this.spotcrudService.create_Spot(record).then(resp => {
-      console.log(resp);
-    })
-      .catch(error => {
-        console.log(error);
-      });
+  onSaveComplete(): void {
+    // Reset the form to clear the flags
+    this.spotForm.reset();
+    this.router.navigate(['']);
   }
 
 

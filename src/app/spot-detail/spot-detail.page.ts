@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ISpot } from '../shared/spot';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SpotdbService } from '../core/spotdbservice.service';
 import { ToastController } from '@ionic/angular';
-import { SpotcrudService } from '../core/spotcrud.service';
+import { Spot } from '../shared/spot';
+import { SpotService } from '../shared/spot.service';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+
 
 @Component({
   selector: 'app-spot-detail',
@@ -12,54 +13,57 @@ import { SpotcrudService } from '../core/spotcrud.service';
 })
 export class SpotDetailPage implements OnInit {
 
-  id: string;
-  public spot: ISpot;
+  errorMessage: string;
+  spotForm: FormGroup;
+  spot: Spot;
+  spotId: number;
 
-  constructor(private activatedrouter: ActivatedRoute,
-    private router: Router,
-    private spotcrudService: SpotcrudService,
-    public toastController: ToastController) { }
+  constructor(private fb: FormBuilder,private activatedroute: ActivatedRoute, private router: Router, private spotService: SpotService) {}
+
 
   ngOnInit() {
-    this.id = this.activatedrouter.snapshot.params.id;
+    this.spotId = parseInt(this.activatedroute.snapshot.params['spotId']);
+    this.spotService.getSpotById(this.spotId).subscribe(
+      (data: Spot) => this.spot = data
+    );
+    
+    this.spotForm = this.fb.group({
+      title: ['', [Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50)]],  
+      description: '',
+      image: ''
+  });
 
+  };
+
+  goEdit():void{
+    this.router.navigate(['/spots', this.spotId, 'edit']);
+  }
+  onBack(): void {
+    this.router.navigate(['']);
   }
 
   
-  editRecord(recordRow) {
-    let record = {};
-    record['title'] = recordRow.EditTitle;
-    record['image'] = recordRow.EditImage;
-    record['descrition'] = recordRow.EditDescription;
-    this.spotcrudService.update_Spot(recordRow.id, record);
-    recordRow.isEdit = false;
+  deleteSpot(): void {
+    if (this.spot.id === 0) {
+      // Don't delete, it was never saved.
+      this.onSaveComplete();
+    } else {
+      if (confirm(`Really delete the spot: ${this.spot.title}?`)) {
+        this.spotService.deleteSpot(this.spot.id)
+          .subscribe(
+            () => this.onSaveComplete(),
+            (error: any) => this.errorMessage = <any>error
+          );
+      }
+    }
   }
 
-  async removeRecord(id) {
-    const toast = await this.toastController.create({
-      header: 'Elimiar Spot',
-      position: 'top',
-      buttons: [
-        {
-          side: 'start',
-          icon: 'delete',
-          text: 'ACEPTAR',
-          handler: () => {
-            this.spotcrudService.delete_Spot(id);
-            this.router.navigate(['home']);
-          }
-        }, {
-          text: 'CANCELAR',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    toast.present();
+  onSaveComplete(): void {
+    this.spotForm.reset();
+    this.router.navigate(['']);
   }
-
 
 
 }

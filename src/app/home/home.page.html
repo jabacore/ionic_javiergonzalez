@@ -11,11 +11,8 @@
 <ion-content>
   <div class="ion-padding">
     <ion-list>
-      <ion-item *ngFor="let spot of spots" (click)="movieTapped(spot)">
-        <ion-thumbnail slot="start">
-          <img src="{{spot.image}}">
-        </ion-thumbnail>
-        <ion-label> {{spot.title}}</ion-label>
+      <ion-item *ngFor="let spot of spots">
+        <app-spot-item [spot]="spot"></app-spot-item>
       </ion-item>
     </ion-list>
   </div>

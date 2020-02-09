@@ -9,14 +9,24 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { environment } from '../environments/environment';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { SpotEditPage } from './spot-edit/spot-edit.page';
+import { SpotDetailPage } from './spot-detail/spot-detail.page';
+import { SpotNewPage } from './spot-new/spot-new.page';
+import { HomePage } from './home/home.page';
+import { HttpClientModule } from '@angular/common/http';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { SpotData } from './shared/spot-data';
+import { SpotItemPage } from './spot-item/spot-item.page';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,
+  SpotEditPage,
+  SpotDetailPage,
+  SpotNewPage,
+  SpotItemPage,
+  HomePage
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -25,9 +35,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     ReactiveFormsModule,
     FormsModule,
     IonicStorageModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireDatabaseModule
+    AppRoutingModule,
+    BrowserModule,
+    HttpClientModule,
+    InMemoryWebApiModule.forRoot(SpotData)
   ],
   providers: [
     StatusBar,

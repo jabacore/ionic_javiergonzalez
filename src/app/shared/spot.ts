@@ -1,5 +1,5 @@
-export interface ISpot {
-    id: string;
+export interface Spot {
+    id: number;
     title: string;
     description: string;
     image: string;

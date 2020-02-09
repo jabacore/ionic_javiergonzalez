@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form [formGroup]="spotForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="spotForm" (ngSubmit)="saveProduct()">
     <ion-grid>
       <ion-row>
         <ion-col>
@@ -41,5 +41,7 @@
       <ion-label>Guardar</ion-label>
       <ion-icon name="save"></ion-icon>
     </ion-button>
+
+    
   </form>
 </ion-content>

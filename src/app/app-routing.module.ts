@@ -1,30 +1,23 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { HomePageModule } from './home/home.module';
+import { SpotNewPage } from './spot-new/spot-new.page';
+import { SpotDetailPage } from './spot-detail/spot-detail.page';
+import { SpotEditPage } from './spot-edit/spot-edit.page';
+import { HomePage } from './home/home.page';
 
 
 
 const routes: Routes = [
+  {path: '',                    component: HomePage},
+  {path: 'spots/:id/new', component: SpotNewPage},
+  {path: 'spots/:spotId', component: SpotDetailPage},
+  {path: 'spots/:id/edit', component: SpotEditPage},
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
-  },
-  {
-    path: 'create',
-    loadChildren: './spot-new/spot-new.module#SpotNewPageModule'
-  },
-  {
-    path: 'details/:id',
-    loadChildren: './spot-detail/spot-detail.module#SpotDetailPageModule'
-  },
-  {
-    path: 'edit/:id',
-    loadChildren: './spot-edit/spot-edit.module#SpotEditPageModule'
+    path: 'spot-item',
+    loadChildren: () => import('./spot-item/spot-item.module').then( m => m.SpotItemPageModule)
   }
+
 ];
 
 @NgModule({

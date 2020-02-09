@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ISpot } from '../shared/spot';
-import { SpotdbService } from '../core/spotdbservice.service';
 import { ToastController } from '@ionic/angular';
-import { SpotcrudService } from '../core/spotcrud.service';
+import { Spot } from '../shared/spot';
+import { SpotService } from '../shared/spot.service';
+
+
 
 @Component({
   selector: 'app-spot-edit',
@@ -13,58 +14,80 @@ import { SpotcrudService } from '../core/spotcrud.service';
 })
 export class SpotEditPage implements OnInit {
 
-  id: string;
-  spot: ISpot;
+  pageTitle = 'Spot Edit';
+  errorMessage: string;
   spotForm: FormGroup;
 
-  constructor(private activatedrouter: ActivatedRoute,private router: Router, private spotcrudService: SpotcrudService, public toastController: ToastController) { }
+  spotId: number;
+  spot: Spot;
+
+  constructor(private fb: FormBuilder,
+    private activatedroute: ActivatedRoute,
+    private router: Router,
+    private spotService: SpotService) { }
 
   ngOnInit() {
+    this.spotForm = this.fb.group({
+      title: ['', [Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50)]],
+      description: '',
+      image: ''
+    });
+    this.spotId = parseInt(this.activatedroute.snapshot.params['id']);
+    this.getSpot(this.spotId);
+  }
 
-    this.id = this.activatedrouter.snapshot.params.id;
-    
+  getSpot(id: number): void {
+    this.spotService.getSpotById(id)
+      .subscribe(
+        (spot: Spot) => this.displaySpot(spot),
+        (error: any) => this.errorMessage = <any>error
+      );
+  }
 
-    this.spotForm = new FormGroup({
-      title: new FormControl(''),
-      image: new FormControl(''),
-      description: new FormControl(''),
+  displaySpot(spot: Spot): void {
+    if (this.spotForm) {
+      this.spotForm.reset();
+    }
+    this.spot = spot;
+    this.pageTitle = `Edit Spot: ${this.spot.title}`;
+
+    // Update the data on the form
+    this.spotForm.patchValue({
+      title: this.spot.title,
+      description: this.spot.description,
+      image: this.spot.image
     });
   }
 
-  async onSubmit() {
-    const toast = await this.toastController.create({
-      header: 'Guardar Spot',
-      position: 'top',
-      buttons: [
-        {
-          side: 'start',
-          icon: 'save',
-          text: 'ACEPTAR',
-          handler: () => {
-            this.EditRecord(this.spot);
-            this.router.navigate(['home']);
-          }
-        }, {
-          text: 'CANCELAR',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    toast.present();
+
+
+  saveSpot(): void {
+    if (this.spotForm.valid) {
+      if (this.spotForm.dirty) {
+        this.spot = this.spotForm.value;
+        this.spot.id = this.spotId;
+
+        this.spotService.updateSpot(this.spot)
+          .subscribe(
+            () => this.onSaveComplete(),
+            (error: any) => this.errorMessage = <any>error
+          );
+
+
+      } else {
+        this.onSaveComplete();
+      }
+    } else {
+      this.errorMessage = 'Please correct the validation errors.';
+    }
   }
 
-  
-  EditRecord(record) {
-    record.isEdit = true;
-    record.EditTitle = record.title;
-    record.EditImage = record.image;
-    record.EditDescription = record.Description;
+  onSaveComplete(): void {
+    this.spotForm.reset();
+    this.router.navigate(['']);
   }
-
-  
 
 
 }
