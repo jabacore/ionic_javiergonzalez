@@ -10,14 +10,18 @@ import { HomePage } from './home/home.page';
 
 const routes: Routes = [
   {path: '',                    component: HomePage},
-  {path: 'spots/:id/new', component: SpotNewPage},
-  {path: 'spots/:spotId', component: SpotDetailPage},
-  {path: 'spots/:id/edit', component: SpotEditPage},
   {
-    path: 'spot-item',
-    loadChildren: () => import('./spot-item/spot-item.module').then( m => m.SpotItemPageModule)
+    path: 'spots/:id/new',
+    loadChildren: './spot-new/spot-new.module#SpotNewPageModule'
+  },
+  {
+    path: 'spots/:spotId',
+    loadChildren: './spot-detail/spot-detail.module#SpotDetailPageModule'
+  },
+  {
+    path: 'spots/:id/edit',
+    loadChildren: './spot-edit/spot-edit.module#SpotEditPageModule'
   }
-
 ];
 
 @NgModule({
