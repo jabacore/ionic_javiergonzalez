@@ -12,23 +12,30 @@ import { SpotEditPageModule } from './spot-edit/spot-edit.module';
 
 
 const routes: Routes = [
-  {path: '', loadChildren: './home/home.module#HomePageModule'},
-  {path: 'spots/:id/new', loadChildren: './spot-new/spot-new.module#SpotNewPageModule'},
-  {path: 'spots/:productId', loadChildren: './spot-detail/spot-detail.module#SpotDetailPageModule'},
-  {path: 'spots/:id/edit', loadChildren: './spot-edit/spot-edit.module#SpotEditPageModule'}
-  /*
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  },
   {
     path: 'spots/:id/new',
     loadChildren: './spot-new/spot-new.module#SpotNewPageModule'
+    //loadChildren: () => import('./spot-new/spot-new.module').then(m => m.SpotNewPageModule)
   },
   {
     path: 'spots/:spotId',
+    //loadChildren: () => import('./spot-detail/spot-detail.module').then(m => m.SpotDetailPageModule)
     loadChildren: './spot-detail/spot-detail.module#SpotDetailPageModule'
   },
   {
     path: 'spots/:id/edit',
+    //loadChildren: () => import('./spot-edit/spot-edit.module').then(m => m.SpotEditPageModule)
     loadChildren: './spot-edit/spot-edit.module#SpotEditPageModule'
-  }*/
+  }
 ];
 
 @NgModule({

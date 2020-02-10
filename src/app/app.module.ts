@@ -17,6 +17,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { SpotData } from './shared/spot-data';
 import { SpotItemPage } from './spot-item/spot-item.page';
+import { SpotEditPageModule } from './spot-edit/spot-edit.module';
+import { SpotDetailPageModule } from './spot-detail/spot-detail.module';
+import { SpotNewPageModule } from './spot-new/spot-new.module';
+import { SpotItemPageModule } from './spot-item/spot-item.module';
 
 
 @NgModule({
