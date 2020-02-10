@@ -14,7 +14,7 @@ export class HomePage implements OnInit {
 
   spots: any;
 
-  constructor(private spotcrudService: SpotcrudService) { }
+  constructor(private spotcrudService: SpotcrudService, private route: Router) { }
   ngOnInit(): void {
     this.spotcrudService.read_Spots().subscribe(data => {
       this.spots = data.map(e => {
