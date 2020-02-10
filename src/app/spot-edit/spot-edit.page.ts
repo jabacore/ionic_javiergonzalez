@@ -41,7 +41,7 @@ export class SpotEditPage implements OnInit {
           icon: 'save',
           text: 'ACEPTAR',
           handler: () => {
-            this.EditRecord(this.spot);
+            this.UpdateRecord(this.spot);
             this.router.navigate(['home']);
           }
         }, {
@@ -56,12 +56,21 @@ export class SpotEditPage implements OnInit {
     toast.present();
   }
 
-  
+
   EditRecord(record) {
-    record.isEdit = true;
-    record.EditTitle = record.title;
-    record.EditImage = record.image;
-    record.EditDescription = record.Description;
+    record['title'] = record.EditTitle;
+    record['image'] = record.EditImage;
+    record['descrition'] = record.EditDescription;
+  }
+
+  UpdateRecord(recordRow) {
+    let record = {};
+    record['title'] = recordRow.EditTitle;
+    record['image'] = recordRow.EditImage;
+    record['descrition'] = recordRow.EditDescription;
+    this.spotcrudService.update_Spot(recordRow.id, record);
+    recordRow.isEdit = false;
+    
   }
 
   

@@ -13,7 +13,8 @@ import { SpotcrudService } from '../core/spotcrud.service';
 export class SpotDetailPage implements OnInit {
 
   id: string;
-  public spot: ISpot;
+  spots: any;
+
 
   constructor(private activatedrouter: ActivatedRoute,
     private router: Router,
@@ -22,18 +23,25 @@ export class SpotDetailPage implements OnInit {
 
   ngOnInit() {
     this.id = this.activatedrouter.snapshot.params.id;
-
+   // this.spotcrudService.get_Spot(this.id);
+   this.spotcrudService.read_Spots().subscribe(data => {
+    this.spots = data.map(e => {
+      return {
+        id: e.payload.doc.id,
+        isEdit: false,
+        title: e.payload.doc.data()['title'],
+        image: e.payload.doc.data()['image'],
+        description: e.payload.doc.data()['description']
+      };
+    })
+    console.log(this.spots);
+  });
   }
 
+  editRecord(spot) {
+    this.router.navigate(['edit', spot.id])
+  }
   
-  editRecord(recordRow) {
-    let record = {};
-    record['title'] = recordRow.EditTitle;
-    record['image'] = recordRow.EditImage;
-    record['descrition'] = recordRow.EditDescription;
-    this.spotcrudService.update_Spot(recordRow.id, record);
-    recordRow.isEdit = false;
-  }
 
   async removeRecord(id) {
     const toast = await this.toastController.create({
