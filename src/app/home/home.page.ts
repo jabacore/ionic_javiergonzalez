@@ -30,6 +30,10 @@ export class HomePage implements OnInit {
     });
   }
 
+
+  movieTapped(spot) {
+    this.route.navigate(['details', spot.id]);
+  }
   
 
 
