@@ -15,6 +15,9 @@ export class SpotNewPage implements OnInit {
   
   spotForm: FormGroup;
   spot: ISpot;
+  title: ISpot;
+  image: string;
+  description: string;
 
   constructor(private router: Router, private spotcrudService: SpotcrudService, public toastController: ToastController) { }
 
@@ -55,11 +58,10 @@ export class SpotNewPage implements OnInit {
 
   CreateRecord() {
     //this.spotForm.controls.spotImage;
-    this.spot = this.spotForm.value;
     let record = {};
-    record['title'] = this.spot.title;
-    record['image'] = this.spot.image
-    record['description'] = this.spot.description
+    record['title'] = this.title
+    record['image'] = this.image
+    record['description'] = this.description
     this.spotcrudService.create_Spot(record).then(resp => {
       this.spot.title = "";
       this.spot.description = "";
