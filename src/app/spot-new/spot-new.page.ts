@@ -59,6 +59,7 @@ export class SpotNewPage implements OnInit {
     record['image'] = this.spotForm.controls.spotImage;
     record['description'] = this.spotForm.controls.spotDescription;
     this.spotcrudService.create_Spot(record).then(resp => {
+
       console.log(resp);
     })
       .catch(error => {
