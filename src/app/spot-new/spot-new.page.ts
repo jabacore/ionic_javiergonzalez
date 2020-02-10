@@ -14,7 +14,7 @@ import { SpotcrudService } from '../core/spotcrud.service';
 export class SpotNewPage implements OnInit {
   
   spotForm: FormGroup;
-
+  spot: ISpot;
 
   constructor(private router: Router, private spotcrudService: SpotcrudService, public toastController: ToastController) { }
 
@@ -55,12 +55,15 @@ export class SpotNewPage implements OnInit {
 
   CreateRecord() {
     //this.spotForm.controls.spotImage;
+    this.spot = this.spotForm.value;
     let record = {};
-    record['title'] = this.spotForm.controls.spotTitle.toString();
-    record['image'] = "http://IEhfehif.com"
-    record['description'] = "funciona";
+    record['title'] = this.spot.title;
+    record['image'] = this.spot.image
+    record['description'] = this.spot.description
     this.spotcrudService.create_Spot(record).then(resp => {
-
+      this.spot.title = "";
+      this.spot.description = "";
+      this.spot.image = "",
       console.log(resp);
     })
       .catch(error => {
