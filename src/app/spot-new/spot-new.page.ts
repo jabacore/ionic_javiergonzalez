@@ -15,7 +15,8 @@ export class SpotNewPage implements OnInit {
   
   spotForm: FormGroup;
   spot: ISpot;
-  title: ISpot;
+
+  title: String;
   image: string;
   description: string;
 
@@ -63,9 +64,9 @@ export class SpotNewPage implements OnInit {
     record['image'] = this.image
     record['description'] = this.description
     this.spotcrudService.create_Spot(record).then(resp => {
-      this.spot.title = "";
-      this.spot.description = "";
-      this.spot.image = "",
+      this.title = "";
+      this.description = "";
+      this.image = "",
       console.log(resp);
     })
       .catch(error => {

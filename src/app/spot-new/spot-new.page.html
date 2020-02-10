@@ -9,17 +9,24 @@
     <ion-title slot="secondary">Crear nuevo Spot</ion-title>
   </ion-toolbar>
 </ion-header>
-
+<!-- 
+  [formGroup]="spotForm"
+formControlName="spotTitle"
+formControlName="spotImage"
+formControlName="spotDescription"
+-->
 
 <ion-content>
-  <form [formGroup]="spotForm" (ngSubmit)="onSubmit()">
+  <form (ngSubmit)="onSubmit()">
     <ion-grid>
       <ion-row>
         <ion-col>
           <ion-label>Nombre:</ion-label>
         </ion-col>
         <ion-col>
-          <ion-input type="text" placeholder="..."  formControlName="spotTitle"></ion-input>
+          <ion-item>
+            <ion-input type="text" placeholder="..." [(ngModel)]="title" name="title"></ion-input>
+            </ion-item>   
         </ion-col>
       </ion-row>
       <ion-row>
@@ -27,8 +34,7 @@
           <ion-label>Imagen:</ion-label>
         </ion-col>
         <ion-col>
-
-          <ion-input type="url" placeholder="http://****" formControlName="spotImage"></ion-input>
+          <ion-input type="url" placeholder="http://****" [(ngModel)]="image" name="image"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -36,7 +42,7 @@
           <ion-label>Descripción:</ion-label>
         </ion-col>
         <ion-col>
-          <ion-textarea placeholder="****" formControlName="spotDescription"></ion-textarea>
+          <ion-textarea placeholder="****" [(ngModel)]="description" name="description" ></ion-textarea>
         </ion-col>
       </ion-row>
     </ion-grid>
