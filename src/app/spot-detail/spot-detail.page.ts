@@ -23,19 +23,7 @@ export class SpotDetailPage implements OnInit {
 
   ngOnInit() {
     this.id = this.activatedrouter.snapshot.params.id;
-   // this.spotcrudService.get_Spot(this.id);
-   this.spotcrudService.read_Spots().subscribe(data => {
-    this.spots = data.map(e => {
-      return {
-        id: e.payload.doc.id,
-        isEdit: false,
-        title: e.payload.doc.data()['title'],
-        image: e.payload.doc.data()['image'],
-        description: e.payload.doc.data()['description']
-      };
-    })
-    console.log(this.spots);
-  });
+
   }
 
   editRecord(spot) {

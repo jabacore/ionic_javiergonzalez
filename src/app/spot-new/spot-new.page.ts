@@ -54,10 +54,11 @@ export class SpotNewPage implements OnInit {
 
 
   CreateRecord() {
+    //this.spotForm.controls.spotImage;
     let record = {};
-    record['title'] = this.spotForm.controls.spotTitle;
-    record['image'] = this.spotForm.controls.spotImage;
-    record['description'] = this.spotForm.controls.spotDescription;
+    record['title'] = this.spotForm.controls.spotTitle.toString();
+    record['image'] = "http://IEhfehif.com"
+    record['description'] = "funciona";
     this.spotcrudService.create_Spot(record).then(resp => {
 
       console.log(resp);

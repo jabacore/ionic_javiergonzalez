@@ -11,7 +11,7 @@ export class SpotdbService {
   // Stores a value
   setItem(reference: string, value: ISpot) {
     this.storage.set(reference, {
-      id: value.id, title: value.title, description:
+      /*id: value.id*/ title: value.title, description:
       value.description , image: value.image, 
     })
       .then(
