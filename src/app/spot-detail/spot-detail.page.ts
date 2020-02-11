@@ -25,18 +25,24 @@ export class SpotDetailPage implements OnInit {
 
   ngOnInit() {
     this.id = this.activatedrouter.snapshot.params.id;
-    this.spotcrudService.get_Spot(this.id).subscribe(result =>{
+    /*this.spotcrudService.get_Spot(this.id).subscribe(result =>{
       console.log(result);
       this.spot = result;
-    });
-    /*this.spotcrudService.read_Spots().subscribe(results=>{
-      results.forEach(element => {
-        if (element.id == this.id){
-           this.spot = element
-        }
-      });
-      return this.spot;
-    }) */
+    });*/
+    this.spotcrudService.read_Spots().subscribe(data=>{
+       data.map(e => {
+      if(e.payload.doc.id == this.id)
+       { 
+        this.spot = {
+          id: e.payload.doc.id,
+          isEdit: false,
+          title: e.payload.doc.data()['title'],
+          image: e.payload.doc.data()['image'],
+          description: e.payload.doc.data()['description']
+        };
+       }
+      })
+    }) 
 
   }
 
