@@ -12,21 +12,7 @@ export class HomePage implements OnInit {
 
 
   public spots: ISpot[];
-  spotsinit: ISpot[] = [
-    {
-      id: '1',
-      title: 'zaragoza',
-      description: 'la ostia',
-      image: 'https://assets.change.org/photos/0/jt/sh/rBjtshknTlyWFwf-800x450-noPad.jpg?1529830430'
-      
-    },
-    {
-      id: '2',
-      title: 'tudela',
-      description: 'la ostia',
-      image: 'https://assets.change.org/photos/0/jt/sh/rBjtshknTlyWFwf-800x450-noPad.jpg?1529830430'
-    }
-  ]
+  spotsinit: ISpot[] = []
 
   constructor(private spotdbService: SpotdbService, private route: Router) { }
   ngOnInit(): void {
