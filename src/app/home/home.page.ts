@@ -11,22 +11,25 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  spots: Spot[]=[];
+  public spots: Spot[];
+  spotsinit: Spot[] = []
   
 
   constructor(private spotService: SpotService,private router: Router) { }
 
 
-  ngOnInit() {
-   }
-
-   ionViewDidEnter() {
+  ngOnInit(): void {
+    // If the database is empty set initial values
+    
+  }
+  ionViewDidEnter() {
+    // Remove elements if it already has values
     if (this.spots !== undefined) {
       this.spots.splice(0);
     }
     this.retrieveValues();
   }
-
+  
   retrieveValues() {
     // Retrieve values
     this.spotService.getSpots().subscribe(
@@ -34,10 +37,8 @@ export class HomePage implements OnInit {
     );
   }
   maskTapped(spot) {
-    this.router.navigate(['spot-detail', spot.id]);
+    this.router.navigate(['details', spot.id]);
   }
-
 }
-
 
 
