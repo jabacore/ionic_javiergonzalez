@@ -31,7 +31,7 @@ export class SpotService {
     );
   }
 
-  getSpotById(id: number): Observable<Spot> {
+  getSpotById(id: string): Observable<Spot> {
     const url = `${this.spotsUrl}/${id}`;
     return this.http.get<Spot>(url)
       .pipe(
@@ -50,7 +50,7 @@ export class SpotService {
       );
   }
 
-  deleteSpot(id: number): Observable<{}> {
+  deleteSpot(id: string): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.spotsUrl}/${id}`;
     return this.http.delete<Spot>(url, { headers: headers })

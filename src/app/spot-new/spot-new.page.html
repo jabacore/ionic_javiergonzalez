@@ -6,13 +6,13 @@
     <ion-button [routerLink]="['/home']" routerDirection="back" color="medium">
       <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
-    <ion-title slot="secondary">{{pageTitle}}</ion-title>
+    <ion-title slot="secondary">Crear Spot</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
-  <form [formGroup]="spotForm" (ngSubmit)="saveProduct()">
+  <form [formGroup]="spotForm" (ngSubmit)="onSubmit()">
     <ion-grid>
       <ion-row>
         <ion-col>

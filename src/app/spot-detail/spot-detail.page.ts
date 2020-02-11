@@ -13,56 +13,47 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class SpotDetailPage implements OnInit {
 
-  errorMessage: string;
-  spotForm: FormGroup;
-  spot: Spot;
-  spotId: number;
-
-  constructor(private fb: FormBuilder,private activatedroute: ActivatedRoute, private router: Router, private spotService: SpotService) {}
-
-
+  id: string;
+  public spot: Spot;
+  constructor(
+      private activatedrouter: ActivatedRoute,
+      private router: Router,
+      private spotService: SpotService,
+      public toastController: ToastController
+  ) { }
   ngOnInit() {
-    this.spotId = parseInt(this.activatedroute.snapshot.params['spotId']);
-    this.spotService.getSpotById(this.spotId).subscribe(
-      (data: Spot) => this.spot = data
-    );
-    
-    this.spotForm = this.fb.group({
-      title: ['', [Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(50)]],  
-      description: '',
-      image: ''
-  });
-
-  };
-
-  goEdit():void{
-    this.router.navigate(['/spots', this.spotId, 'edit']);
-  }
-  onBack(): void {
-    this.router.navigate(['']);
+      this.id = this.activatedrouter.snapshot.params.id;
+      this.spotService.getSpotById(this.id).subscribe(
+          (data: Spot) => this.spot = data
+      );
   }
 
-  
-  deleteSpot(): void {
-    if (this.spot.id === 0) {
-      // Don't delete, it was never saved.
-      this.onSaveComplete();
-    } else {
-      if (confirm(`Really delete the spot: ${this.spot.title}?`)) {
-        this.spotService.deleteSpot(this.spot.id)
-          .subscribe(
-            () => this.onSaveComplete(),
-            (error: any) => this.errorMessage = <any>error
-          );
-      }
-    }
+  editRecord(spot) {
+      this.router.navigate(['edit', spot.id])
   }
-
-  onSaveComplete(): void {
-    this.spotForm.reset();
-    this.router.navigate(['']);
+  async removeRecord(id) {
+      const toast = await this.toastController.create({
+          header: 'Eliminar Spot',
+          position: 'top',
+          buttons: [
+              {
+                  side: 'start',
+                  icon: 'delete',
+                  text: 'ACEPTAR',
+                  handler: () => {
+                      this.spotService.deleteSpot(id);
+                      this.router.navigate(['home']);
+                  }
+              }, {
+                  text: 'CANCELAR',
+                  role: 'cancel',
+                  handler: () => {
+                      console.log('Cancel clicked');
+                  }
+              }
+          ]
+      });
+      toast.present();
   }
 
 

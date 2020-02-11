@@ -8,15 +8,21 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
+
+
 <ion-content>
   <div class="ion-padding">
     <ion-list>
-      <ion-item *ngFor="let spot of spots">
-        <app-spot-item [spot]="spot"></app-spot-item>
+      <ion-item *ngFor="let spot of Spots" (click)="maskTapped(spot)">
+        <ion-thumbnail slot="start">
+          <img src="{{spot.image}}">
+        </ion-thumbnail>
+        <ion-label> {{spot.title}}</ion-label>
       </ion-item>
     </ion-list>
   </div>
 </ion-content>
+
 <ion-toolbar>
   <img src="/assets/images/4Vientos_iconoBlanco.PNG" />
   <ion-title slot="primary">

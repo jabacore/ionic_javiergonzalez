@@ -9,11 +9,7 @@
     <ion-title slot="secondary">Detalles del Spot</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
-  
-
   <ion-card *ngIf="spot">
     <img src="{{spot.image}}">
     <ion-card-header>
@@ -25,10 +21,10 @@
           {{spot.description}}
         </ion-item>
       </ion-list>
-      <ion-button shape="round" color="secondary" size="small" (click)="goEdit()">
+      <ion-button shape="round" color="secondary" size="small" (click)="editRecord(spot)">
         <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
       </ion-button>
-      <ion-button shape="round" color="danger" size="small" (click)="deleteSpot()">
+      <ion-button shape="round" color="danger" size="small" (click)="removeRecord(spot.id)">
         <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
       </ion-button>
     </ion-card-content>

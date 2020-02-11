@@ -11,54 +11,49 @@ import { SpotService } from '../shared/spot.service';
 })
 export class SpotNewPage implements OnInit {
   
-  pageTitle = 'Spot New';
-  errorMessage: string;
-  spotForm: FormGroup;
-  
-  spotId:number;
   spot: Spot;
-
-  constructor(private fb: FormBuilder,
-    private activatedroute: ActivatedRoute,
+  spotForm: FormGroup;
+  constructor(
     private router: Router,
-    private spotService: SpotService) {  }
-
+    private spotService: SpotService,
+    public toastController: ToastController
+  ) { }
   ngOnInit() {
-    this.spotForm = this.fb.group({
-      title: ['', [Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(50)]],   
-      description: '',
-      image: ''
+    this.spotForm = new FormGroup({
+      title: new FormControl(''),
+      image: new FormControl(''),
+      description: new FormControl(''),
     });
-     // Read the spots Id from the route parameter
-     this.spotId = parseInt(this.activatedroute.snapshot.params['spotId']);
+  } async onSubmit() {
+    const toast = await this.toastController.create({
+      header: 'Guardar Spot',
+      position: 'top',
+      buttons: [
+        {
+          side: 'start',
+          icon: 'save',
+          text: 'ACEPTAR',
+          handler: () => {
+            this.saveSpot();
+            this.router.navigate(['home']);
+          }
+        }, {
+          text: 'CANCELAR',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    toast.present();
   }
-
-  saveSpot(): void {
-    if (this.spotForm.valid) {
-      if (this.spotForm.dirty) {
-        this.spot = this.spotForm.value;
-        this.spot.id = this.spotId;
-        
-        this.spotService.createSpot(this.spot)
-          .subscribe(
-            () => this.onSaveComplete(),
-            (error: any) => this.errorMessage = <any>error
-          );
-        
-      } else {
-        this.onSaveComplete();
-      }
-    } else {
-      this.errorMessage = 'Please correct the validation errors.';
-    }
-  }
-
-  onSaveComplete(): void {
-    // Reset the form to clear the flags
-    this.spotForm.reset();
-    this.router.navigate(['']);
+  saveSpot() {
+    this.spot = this.spotForm.value;
+    let nextKey = this.spot.title.trim();
+    this.spot.id = nextKey;
+    this.spotService.updateSpot(this.spot).subscribe();
+    console.warn(this.spotForm.value);
   }
 
 

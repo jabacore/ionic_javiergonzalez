@@ -21,16 +21,20 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
+  { path: 'spot-detail/:id', loadChildren: './spot-detail/spot-detail.module#SpotDetailPageModule' },
+   { path: 'spot-new', loadChildren: './spot-new/spot-new.module#SpotNewPageModule' },
+   { path: 'spot-edit/:id', loadChildren:'./spot-edit/spot-edit.module#SpotEditPageModule'},
+
   {
-    path: 'spots/:id/new',
+    path: 'spot-new',
     loadChildren: () => import('./spot-new/spot-new.module').then(m => m.SpotNewPageModule)
   },
   {
-    path: 'spots/:spotId',
+    path: 'spot-detail',
     loadChildren: () => import('./spot-detail/spot-detail.module').then(m => m.SpotDetailPageModule)
   },
   {
-    path: 'spots/:id/edit',
+    path: 'spot-edit',
      loadChildren: () => import('./spot-edit/spot-edit.module').then(m => m.SpotEditPageModule)  
   }
 ];

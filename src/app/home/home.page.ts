@@ -13,27 +13,31 @@ export class HomePage implements OnInit {
 
   spots: Spot[]=[];
   
-  id : any;
 
   constructor(private spotService: SpotService,private router: Router) { }
 
 
   ngOnInit() {
-    this.spotService.getSpots().subscribe(
-     (data: Spot[]) => this.spots = data
-    );
    }
 
-   newProduct(){
-    // Get max product Id from the product list
-    this.spotService.getMaxSpotId().subscribe(
-      data => this.id = data
+   ionViewDidEnter() {
+    if (this.spots !== undefined) {
+      this.spots.splice(0);
+    }
+    this.retrieveValues();
+  }
+
+  retrieveValues() {
+    // Retrieve values
+    this.spotService.getSpots().subscribe(
+      (data) => this.spots = data
     );
-    this.router.navigate(['/spots', this.id, 'new'])
+  }
+  maskTapped(spot) {
+    this.router.navigate(['details', spot.id]);
+  }
 
 }
-  
 
-}
 
 

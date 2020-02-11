@@ -14,79 +14,62 @@ import { SpotService } from '../shared/spot.service';
 })
 export class SpotEditPage implements OnInit {
 
-  pageTitle = 'Spot Edit';
-  errorMessage: string;
-  spotForm: FormGroup;
-
-  spotId: number;
+  id: string;
   spot: Spot;
-
-  constructor(private fb: FormBuilder,
-    private activatedroute: ActivatedRoute,
+  spotForm: FormGroup;
+  constructor(
+    private activatedrouter: ActivatedRoute,
     private router: Router,
-    private spotService: SpotService) { }
-
+    private spotService: SpotService,
+    public toastController: ToastController
+  ) { }
   ngOnInit() {
-    this.spotForm = this.fb.group({
-      title: ['', [Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(50)]],
-      description: '',
-      image: ''
-    });
-    this.spotId = parseInt(this.activatedroute.snapshot.params['id']);
-    this.getSpot(this.spotId);
-  }
-
-  getSpot(id: number): void {
-    this.spotService.getSpotById(id)
-      .subscribe(
-        (spot: Spot) => this.displaySpot(spot),
-        (error: any) => this.errorMessage = <any>error
-      );
-  }
-
-  displaySpot(spot: Spot): void {
-    if (this.spotForm) {
-      this.spotForm.reset();
-    }
-    this.spot = spot;
-    this.pageTitle = `Edit Spot: ${this.spot.title}`;
-
-    // Update the data on the form
-    this.spotForm.patchValue({
-      title: this.spot.title,
-      description: this.spot.description,
-      image: this.spot.image
-    });
-  }
-
-
-
-  saveSpot(): void {
-    if (this.spotForm.valid) {
-      if (this.spotForm.dirty) {
-        this.spot = this.spotForm.value;
-        this.spot.id = this.spotId;
-
-        this.spotService.updateSpot(this.spot)
-          .subscribe(
-            () => this.onSaveComplete(),
-            (error: any) => this.errorMessage = <any>error
-          );
-
-
-      } else {
-        this.onSaveComplete();
+    this.id = this.activatedrouter.snapshot.params.id;
+    this.spotService.getSpotById(this.id).subscribe(
+      (data: Spot) => {
+        this.spot = data
+        this.spotForm.get('title').setValue(this.spot.title);
+        this.spotForm.get('image').setValue(this.spot.image);
+        this.spotForm.get('description').setValue(this.spot.description);
       }
-    } else {
-      this.errorMessage = 'Please correct the validation errors.';
-    }
+    );
+    this.spotForm = new FormGroup({
+      name: new FormControl(''),
+      cover: new FormControl(''),
+      description: new FormControl(''),
+    });
   }
-
-  onSaveComplete(): void {
-    this.spotForm.reset();
-    this.router.navigate(['']);
+  async onSubmit() {
+    const toast = await this.toastController.create({
+      header: 'Guardar Spot',
+      position: 'top',
+      buttons: [
+        {
+          side: 'start',
+          icon: 'save',
+          text: 'ACEPTAR',
+          handler: () => {
+            this.saveSpot();
+            this.router.navigate(['home']);
+          }
+        }, {
+          text: 'CANCELAR',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    toast.present();
+  }
+  saveSpot() {
+    this.spotService.deleteSpot(this.id);
+    this.spot = this.spotForm.value;
+    let nextKey = this.spot.title.trim();
+    this.spot.id = nextKey;
+    this.spotService.updateSpot(this.spot).subscribe();
+    console.warn(this.spotForm.value);
   }
 
 
