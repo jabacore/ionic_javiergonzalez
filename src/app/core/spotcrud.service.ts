@@ -13,6 +13,7 @@ export class SpotcrudService {
     return this.firestore.collection('spots').add(record);
   }
 
+  
 
   get_Spot(recordID){
     return this.firestore.collection('spots/'+recordID).snapshotChanges();
