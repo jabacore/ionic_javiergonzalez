@@ -44,7 +44,7 @@ export class SpotDetailPage implements OnInit {
   }
 
   editRecord(spot) {
-    this.router.navigate(['edit', spot])
+    this.router.navigate(['edit', spot.id])
   }
   
 

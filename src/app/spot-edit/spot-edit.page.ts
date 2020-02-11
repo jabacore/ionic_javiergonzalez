@@ -5,6 +5,7 @@ import { ISpot } from '../shared/spot';
 import { SpotdbService } from '../core/spotdbservice.service';
 import { ToastController } from '@ionic/angular';
 import { SpotcrudService } from '../core/spotcrud.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-spot-edit',
@@ -27,6 +28,19 @@ export class SpotEditPage implements OnInit {
   ngOnInit() {
 
     this.id = this.activatedrouter.snapshot.params.id;
+    
+    this.spotcrudService.read_Spots().subscribe(data=>{
+      data.map(e => {
+     if(e.payload.doc.id == this.id)
+      { 
+         this.title= e.payload.doc.data()['title'].setValue(this.title),
+         this.image = e.payload.doc.data()['image'].setValue(this.image),
+         this.description = e.payload.doc.data()['description'].setValue(this.description)
+       
+      }
+     })
+    });
+
 
     this.spotForm = new FormGroup({
       title: new FormControl(''),
