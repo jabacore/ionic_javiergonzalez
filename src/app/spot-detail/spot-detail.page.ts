@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SpotdbService } from '../core/spotdbservice.service';
 import { ToastController } from '@ionic/angular';
 import { SpotcrudService } from '../core/spotcrud.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-spot-detail',
@@ -14,6 +15,7 @@ export class SpotDetailPage implements OnInit {
 
   id: string;
   spots: any;
+  spotsList: any[];
 
 
   constructor(private activatedrouter: ActivatedRoute,
@@ -23,6 +25,11 @@ export class SpotDetailPage implements OnInit {
 
   ngOnInit() {
     this.id = this.activatedrouter.snapshot.params.id;
+    /*this.spotcrudService.get_Spot(this.id).subscribe(result =>{
+      console.log(result);
+      this.spots = result;
+    });*/
+    this.spotcrudService.get_Spot(this.id).subscribe(result => this.spots = result)
 
   }
 

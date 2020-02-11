@@ -16,8 +16,9 @@ export class SpotcrudService {
   
 
   get_Spot(recordID){
-    return this.firestore.collection('spots/'+recordID).snapshotChanges();
+    return this.firestore.collection('spots').doc(recordID).get()
   }
+
 
   read_Spots() {
     return this.firestore.collection('spots').snapshotChanges();
