@@ -34,8 +34,8 @@ export class SpotEditPage implements OnInit {
       }
     );
     this.spotForm = new FormGroup({
-      name: new FormControl(''),
-      cover: new FormControl(''),
+      title: new FormControl(''),
+      image: new FormControl(''),
       description: new FormControl(''),
     });
   }
