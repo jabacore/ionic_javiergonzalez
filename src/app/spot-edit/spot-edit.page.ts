@@ -27,7 +27,6 @@ export class SpotEditPage implements OnInit {
   ngOnInit() {
 
     this.id = this.activatedrouter.snapshot.params.id;
-    
 
     this.spotForm = new FormGroup({
       title: new FormControl(''),

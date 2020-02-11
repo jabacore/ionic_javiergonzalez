@@ -25,10 +25,7 @@ export class SpotDetailPage implements OnInit {
 
   ngOnInit() {
     this.id = this.activatedrouter.snapshot.params.id;
-    /*this.spotcrudService.get_Spot(this.id).subscribe(result =>{
-      console.log(result);
-      this.spot = result;
-    });*/
+
     this.spotcrudService.read_Spots().subscribe(data=>{
        data.map(e => {
       if(e.payload.doc.id == this.id)
@@ -47,7 +44,7 @@ export class SpotDetailPage implements OnInit {
   }
 
   editRecord(spot) {
-    this.router.navigate(['edit', spot.id])
+    this.router.navigate(['edit', spot])
   }
   
 
