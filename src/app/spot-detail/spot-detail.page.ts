@@ -14,7 +14,7 @@ import { ThrowStmt } from '@angular/compiler';
 export class SpotDetailPage implements OnInit {
 
   id: string;
-  spots: any;
+  spot: any;
   spotsList: any[];
 
 
@@ -25,11 +25,18 @@ export class SpotDetailPage implements OnInit {
 
   ngOnInit() {
     this.id = this.activatedrouter.snapshot.params.id;
-    /*this.spotcrudService.get_Spot(this.id).subscribe(result =>{
+    this.spotcrudService.get_Spot(this.id).subscribe(result =>{
       console.log(result);
-      this.spots = result;
-    });*/
-    this.spotcrudService.get_Spot(this.id).subscribe(result => this.spots = result)
+      this.spot = result;
+    });
+    /*this.spotcrudService.read_Spots().subscribe(results=>{
+      results.forEach(element => {
+        if (element.id == this.id){
+           this.spot = element
+        }
+      });
+      return this.spot;
+    }) */
 
   }
 

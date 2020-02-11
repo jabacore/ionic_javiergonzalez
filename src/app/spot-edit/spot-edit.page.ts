@@ -17,6 +17,11 @@ export class SpotEditPage implements OnInit {
   spot: ISpot;
   spotForm: FormGroup;
 
+  title: String;
+  image: string;
+  description: string;
+
+
   constructor(private activatedrouter: ActivatedRoute,private router: Router, private spotcrudService: SpotcrudService, public toastController: ToastController) { }
 
   ngOnInit() {
@@ -58,17 +63,17 @@ export class SpotEditPage implements OnInit {
 
 
   EditRecord(record) {
-    record['title'] = record.EditTitle;
-    record['image'] = record.EditImage;
-    record['descrition'] = record.EditDescription;
+    record['title'] = record.title;
+    record['image'] = record.image;
+    record['description'] = record.description;
   }
 
   UpdateRecord(recordRow) {
     let record = {};
-    record['title'] = recordRow.EditTitle;
-    record['image'] = recordRow.EditImage;
-    record['descrition'] = recordRow.EditDescription;
-    this.spotcrudService.update_Spot(recordRow.id, record);
+    record['title'] = this.title;
+    record['image'] = this.image;
+    record['description'] = this.description;
+    this.spotcrudService.update_Spot(this.id, record);
     recordRow.isEdit = false;
     
   }
