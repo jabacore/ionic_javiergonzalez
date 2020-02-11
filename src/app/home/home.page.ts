@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
     );
   }
   maskTapped(spot) {
-    this.router.navigate(['details', spot.id]);
+    this.router.navigate(['spot-detail', spot.id]);
   }
 }
 

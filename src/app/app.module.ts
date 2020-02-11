@@ -8,6 +8,10 @@ import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { SpotService } from './shared/spot.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SpotData } from './shared/spot-data';
 
 
 
@@ -15,13 +19,18 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    BrowserModule,
+    FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    BrowserModule,
     IonicModule.forRoot(),
-    IonicStorageModule.forRoot(), 
-    AppRoutingModule
+    IonicStorageModule.forRoot(),
+    AppRoutingModule,
+    InMemoryWebApiModule.forRoot(SpotData)
+
   ],
-  providers: [  
+  providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

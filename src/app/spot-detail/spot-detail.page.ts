@@ -29,7 +29,7 @@ export class SpotDetailPage implements OnInit {
   }
 
   editRecord(spot) {
-      this.router.navigate(['edit', spot.id])
+      this.router.navigate(['spot-edit', spot.id])
   }
   async removeRecord(id) {
       const toast = await this.toastController.create({
