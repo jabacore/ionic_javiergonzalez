@@ -24,13 +24,7 @@ import { SpotItemPageModule } from './spot-item/spot-item.module';
 
 
 @NgModule({
-  declarations: [AppComponent,
-  SpotEditPage,
-  SpotDetailPage,
-  SpotNewPage,
-  SpotItemPage,
-  HomePage
-  ],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
