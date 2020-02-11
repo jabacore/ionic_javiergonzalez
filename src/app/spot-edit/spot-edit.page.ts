@@ -33,9 +33,9 @@ export class SpotEditPage implements OnInit {
       data.map(e => {
      if(e.payload.doc.id == this.id)
       { 
-         this.title= e.payload.doc.data()['title'].setValue(this.title),
-         this.image = e.payload.doc.data()['image'].setValue(this.image),
-         this.description = e.payload.doc.data()['description'].setValue(this.description)
+         this.title= e.payload.doc.data()['title'].setValue(this.spot.title),
+         this.image = e.payload.doc.data()['image'].setValue(this.spot.image),
+         this.description = e.payload.doc.data()['description'].setValue(this.spot.description)
        
       }
      })
