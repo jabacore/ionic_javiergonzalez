@@ -2,48 +2,29 @@ var express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-class Product {
+class Spot {
   constructor(
     public id: number,
     public title: string,
-    public price: number,
-    public rating: number,
-    public shortDescription: string,
-    public description: string,
-    public categories: string[],
     public images: string
+   
   ) { }
 }
 
-const products: Product[] = [
-  new Product(
+const spots: Spot[] = [
+  new Spot(
     0,
-    "Bat Product",
-    24.99,
-    4.3,
-    "This is a short description of the First Product",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ["electronics", "hardware"],
+    "zaragoza",
     "http://placehold.it/820x320"
   ),
-  new Product(
+  new Spot(
     1,
-    "Second Product",
-    64.99,
-    3.5,
-    "This is a short description of the Second Product",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ["books"],
+    "Madrid",
     "http://placehold.it/820x320"
   ),
-  new Product(
+  new Spot(
     2,
-    "Third Product",
-    74.99,
-    4.2,
-    "This is a short description of the Third Product",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ["electronics"],
+    "Corella",
     "http://placehold.it/820x320"
   ),
   new Product(
