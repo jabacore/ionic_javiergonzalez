@@ -33,9 +33,9 @@ export class SpotEditPage implements OnInit {
     this.spotcrudService.read_Spots().subscribe(data => {
       data.map(e => {
         if (e.payload.doc.id == this.id) {
-            this.spotForm.get('title').setValue(this.spot.title);
-            this.spotForm.get('image').setValue(this.spot.image);
-            this.spotForm.get('description').setValue(this.spot.description);         
+            this.spotForm.get('title').setValue(e.payload.doc.data()['title']);
+            this.spotForm.get('image').setValue(e.payload.doc.data()['image']);
+            this.spotForm.get('description').setValue(e.payload.doc.data()['description']);         
         }
       })
     });
