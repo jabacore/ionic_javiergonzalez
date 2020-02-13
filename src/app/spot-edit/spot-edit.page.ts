@@ -6,6 +6,7 @@ import { SpotdbService } from '../core/spotdbservice.service';
 import { ToastController } from '@ionic/angular';
 import { SpotcrudService } from '../core/spotcrud.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-spot-edit',
@@ -35,18 +36,13 @@ export class SpotEditPage implements OnInit {
       { 
          this.title= e.payload.doc.data()['title'].setValue(this.spot.title),
          this.image = e.payload.doc.data()['image'].setValue(this.spot.image),
-         this.description = e.payload.doc.data()['description'].setValue(this.spot.description)
-       
+         this.description = e.payload.doc.data()['description'].setValue(this.spot.description)      
       }
      })
     });
 
 
-    this.spotForm = new FormGroup({
-      title: new FormControl(''),
-      image: new FormControl(''),
-      description: new FormControl(''),
-    });
+
   }
 
   async onSubmit() {
@@ -72,13 +68,6 @@ export class SpotEditPage implements OnInit {
       ]
     });
     toast.present();
-  }
-
-
-  EditRecord(record) {
-    record['title'] = record.title;
-    record['image'] = record.image;
-    record['description'] = record.description;
   }
 
   UpdateRecord(recordRow) {
