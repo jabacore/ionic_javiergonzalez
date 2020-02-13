@@ -2,29 +2,22 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-var Product = /** @class */ (function () {
-    function Product(id, title, price, rating, shortDescription, description, categories, images) {
+var Spot = /** @class */ (function () {
+    function Spot(id, title, images ,description) {
         this.id = id;
         this.title = title;
-        this.price = price;
-        this.rating = rating;
-        this.shortDescription = shortDescription;
-        this.description = description;
-        this.categories = categories;
         this.images = images;
+        this.description = description;       
     }
-    return Product;
+    return Spot;
 }());
-var products = [
-    new Product(0, "Bat Product", 24.99, 4.3, "This is a short description of the First Product", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ["electronics", "hardware"], "http://placehold.it/820x320"),
-    new Product(1, "Second Product", 64.99, 3.5, "This is a short description of the Second Product", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ["books"], "http://placehold.it/820x320"),
-    new Product(2, "Third Product", 74.99, 4.2, "This is a short description of the Third Product", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ["electronics"], "http://placehold.it/820x320"),
-    new Product(3, "Fourth Product", 84.99, 3.9, "This is a short description of the Fourth Product", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ["hardware"], "http://placehold.it/820x320"),
-    new Product(4, "Fifth Product", 94.99, 5, "This is a short description of the Fourth Product", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ["electronics", "hardware"], "http://placehold.it/820x320"),
-    new Product(5, "Sixth Product", 54.99, 4.6, "This is a short description of the Fourth Product", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ["books"], "http://placehold.it/820x320")
+var spots = [
+    new Spot(0, "Madrid","http://placehold.it/820x320","sisisisi"),
+    new Spot(1, "Zaragoza","http://placehold.it/820x320","sisisisi"),
+    new Spot(2, "Mallorca","http://placehold.it/820x320","sisisisi"),
 ];
-function getProducts() {
-    return products;
+function getSpots() {
+    return spots;
 }
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:4200"); // update to match the domain you will make the request from
@@ -36,61 +29,54 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
-app.post('/products', bodyParser.json(), function (req, res) {
-    var pNew = new Product(products.length + 1, req.body.title, req.body.price, req.body.rating, req.body.shortDescription, req.body.description, req.body.categories, req.body.images);
-    products.push(pNew);
+app.post('/spots', bodyParser.json(), function (req, res) {
+    var sNew = new Spot(spots.length + 1, req.body.title,req.body.images, req.body.description);
+    spots.push(sNew);
     res.status(200).send({
-        id: pNew.id,
-        title: pNew.title,
-        price: pNew.price,
-        rating: pNew.rating,
-        shortDescription: pNew.shortDescription,
-        description: pNew.description,
-        categories: pNew.categories,
-        images: pNew.images
+        id: sNew.id,
+        title: sNew.title,
+        images: sNew.images,
+        description: sNew.description       
     });
 });
 app.get('/', function (req, res) {
-    res.send('The URL of products is http://localhost:8000/products');
+    res.send('The URL of spots is http://localhost:8000/spots');
 });
-app.get('/products', function (req, res) {
-    res.json(getProducts());
+app.get('/spots', function (req, res) {
+    res.json(getSpots());
 });
-function getProductsById(productId) {
-    var p;
-    p = products.find(function (p) { return p.id == productId; });
-    return p;
+function getSpotsById(spotId) {
+    var s;
+    s = spots.find(function (s) { return s.id == spotId; });
+    return s;
 }
-app.get('/products/:id', function (req, res) {
-    res.json(getProductsById(parseInt(req.params.id)));
+app.get('/spots/:id', function (req, res) {
+    res.json(getSpotsById(parseInt(req.params.id)));
 });
-function updateProductsById(req, productId) {
-    var p;
-    p = products.find(function (p) { return p.id == productId; });
-    var index = products.indexOf(p);
-    p.title = req.body.title,
-        p.price = req.body.price,
-        p.rating = req.body.rating,
-        p.shortDescription = req.body.shortDescription,
-        p.description = req.body.description,
-        p.categories = req.body.categories,
-        p.images = req.body.images;
-    products[index] = p;
-    return p;
+function updateSpotsById(req, spotId) {
+    var s;
+    s = spots.find(function (s) { return s.id == spotId; });
+    var index = spots.indexOf(s);
+        s.title = req.body.title,
+        s.images = req.body.images,
+        s.description = req.body.description;
+        
+    products[index] = s;
+    return s;
 }
-app.put('/products/:id', function (req, res) {
-    res.json(updateProductsById(req, parseInt(req.params.id)));
+app.put('/spots/:id', function (req, res) {
+    res.json(updateSpotsById(req, parseInt(req.params.id)));
     res.send('Got a UPDATE request at /user');
 });
-function deleteProductsById(productId) {
-    var p;
-    p = products.find(function (p) { return p.id == productId; });
-    var index = products.indexOf(p);
-    delete products[index];
-    return p;
+function deleteSpotsById(spotId) {
+    var s;
+    s = spots.find(function (s) { return s.id == spotId; });
+    var index = spots.indexOf(s);
+    delete spots[index];
+    return s;
 }
-app.delete('/products/:id', function (req, res) {
-    res.json(deleteProductsById(parseInt(req.params.id)));
+app.delete('/spots/:id', function (req, res) {
+    res.json(deleteSpotsById(parseInt(req.params.id)));
     res.send('Got a DELETE request at /user');
 });
 var server = app.listen(8000, "localhost", function () {

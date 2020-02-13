@@ -6,7 +6,8 @@ class Spot {
   constructor(
     public id: number,
     public title: string,
-    public images: string
+    public images: string,
+    public description: string,
    
   ) { }
 }
@@ -15,27 +16,31 @@ const spots: Spot[] = [
   new Spot(
     0,
     "zaragoza",
-    "http://placehold.it/820x320"
+    "http://placehold.it/820x320",
+    "fino"
   ),
   new Spot(
     1,
     "Madrid",
-    "http://placehold.it/820x320"
+    "http://placehold.it/820x320",
+    "fino"
   ),
   new Spot(
     2,
     "Corella",
-    "http://placehold.it/820x320"
+    "http://placehold.it/820x320",
+    "fino"
   ),
   new Spot(
     3,
     "Tudela",
-    "http://placehold.it/820x320"
+    "http://placehold.it/820x320",
+    "fino"
   ),
 ]
 
-function getProducts(): any[] {
-  return products;
+function getSpots(): any[] {
+  return spots;
 }
 
 app.use(function (req: any, res: any, next: any) {
@@ -54,86 +59,75 @@ app.use(
 
 app.use(bodyParser.json())
 
-app.post('/products', bodyParser.json(), (req: any, res: any) => {
+app.post('/spots', bodyParser.json(), (req: any, res: any) => {
 
-  let pNew = new Product(
-    products.length + 1,
+  let sNew = new Spot(
+    spots.length + 1,
     req.body.title,
-    req.body.price,
-    req.body.rating,
-    req.body.shortDescription,
-    req.body.description,
-    req.body.categories,
-    req.body.images
+    req.body.images,
+    req.body.description
   );
-  products.push(pNew);
+  spots.push(sNew);
   res.status(200).send({ 
-    id: pNew.id,
-    title: pNew.title,
-    price: pNew.price,
-    rating: pNew.rating,
-    shortDescription: pNew.shortDescription,
-    description: pNew.description,
-    categories: pNew.categories,
-    images: pNew.images
+    id: sNew.id,
+    title: sNew.title,
+    images: sNew.images,
+    description: sNew.description
+    
    });
  
 })
 
 app.get('/', (req: any, res: any) => {
-  res.send('The URL of products is http://localhost:8000/products');
+  res.send('The URL of spots is http://localhost:8000/spots');
 });
 
-app.get('/products', (req: any, res: any) => {
-  res.json(getProducts());
+app.get('/spots', (req: any, res: any) => {
+  res.json(getSpots());
 });
 
 
-function getProductsById(productId: number): any {
-  let p: any;
-  p = products.find(p => p.id == productId);
-  return p;
+function getSpotsById(spotId: number): any {
+  let s: any;
+  s = spots.find(s => s.id == spotId);
+  return s;
 }
 
-app.get('/products/:id', (req: any, res: any) => {
-  res.json(getProductsById(parseInt(req.params.id)));
+app.get('/spots/:id', (req: any, res: any) => {
+  res.json(getSpotsById(parseInt(req.params.id)));
 });
 
 
 
-function updateProductsById(req:any, productId: number): any {
-  let p: any;
-  p = products.find(p => p.id == productId);
-  let index = products.indexOf(p);
+function updateSpotsById(req:any, spotId: number): any {
+  let s: any;
+  s = spots.find(s => s.id == spotId);
+  let index = spots.indexOf(s);
 
-  p.title =  req.body.title,
-  p.price =  req.body.price,
-  p.rating =  req.body.rating,
-  p.shortDescription =  req.body.shortDescription,
-  p.description =  req.body.description,
-  p.categories =  req.body.categories,
-  p.images =  req.body.images
+  s.title =  req.body.title,
+  s.images =  req.body.images,
+  s.description =  req.body.description
   
-  products[index] = p;
-  return p;
+  spots[index] = s;
+  return s;
 }
 
-app.put('/products/:id', function (req:any, res:any) {
-  res.json(updateProductsById(req, parseInt(req.params.id)));
+app.put('/spots/:id', function (req:any, res:any) {
+  res.json(updateSpotsById(req, parseInt(req.params.id)));
   res.send('Got a UPDATE request at /user');
 });
 
 
-function deleteProductsById(productId: number): any {
-  let p: any;
-  p = products.find(p => p.id == productId);
-  let index = products.indexOf(p);
-  delete products[index];
-  return p;
+function deleteSpotsById(spotId: number): any {
+  let s: any;
+  s = spots.find(p => p.id == spotId);
+  let index = spots.indexOf(s);
+  delete spots[index];
+  return s;
 }
 
-app.delete('/products/:id', function (req:any, res:any) {
-  res.json(deleteProductsById(parseInt(req.params.id)));
+app.delete('/spots/:id', function (req:any, res:any) {
+  res.json(deleteSpotsById(parseInt(req.params.id)));
   res.send('Got a DELETE request at /user');
 });
 
