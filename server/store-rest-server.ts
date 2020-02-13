@@ -27,41 +27,12 @@ const spots: Spot[] = [
     "Corella",
     "http://placehold.it/820x320"
   ),
-  new Product(
+  new Spot(
     3,
-    "Fourth Product",
-    84.99,
-    3.9,
-    "This is a short description of the Fourth Product",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ["hardware"],
+    "Tudela",
     "http://placehold.it/820x320"
   ),
-  new Product(
-    4,
-    "Fifth Product",
-    94.99,
-    5,
-    "This is a short description of the Fourth Product",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ["electronics", "hardware"],
-    "http://placehold.it/820x320"
-  ),
-  new Product(
-    5,
-    "Sixth Product",
-    54.99,
-    4.6,
-    "This is a short description of the Fourth Product",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ["books"],
-    "http://placehold.it/820x320"
-  )
 ]
-
-
-
-
 
 function getProducts(): any[] {
   return products;
