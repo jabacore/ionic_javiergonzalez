@@ -33,16 +33,18 @@ export class SpotEditPage implements OnInit {
     this.spotcrudService.read_Spots().subscribe(data => {
       data.map(e => {
         if (e.payload.doc.id == this.id) {
-          this.spot.title = e.payload.doc.data()['title'].setValue(this.title)
-          this.spot.image = e.payload.doc.data()['image'].setValue(this.image)
-          this.spot.description = e.payload.doc.data()['description'].setValue(this.description)
-          
-
+            this.spotForm.get('title').setValue(this.spot.title);
+            this.spotForm.get('image').setValue(this.spot.image);
+            this.spotForm.get('description').setValue(this.spot.description);         
         }
       })
     });
 
-
+    this.spotForm = new FormGroup({
+      title: new FormControl(''),
+      image: new FormControl(''),
+      description: new FormControl(''),
+    });
 
   }
 
@@ -75,11 +77,11 @@ export class SpotEditPage implements OnInit {
 
   UpdateRecord(recordRow) {
     let record = {};
-    record['title'] = this.title;
-    record['image'] = this.image;
-    record['description'] = this.description;
+    this.spot = this.spotForm.value;
+    record['title'] = this.spot.title;
+    record['image'] = this.spot.image;
+    record['description'] = this.spot.description;
     this.spotcrudService.update_Spot(this.id, record);
-    recordRow.isEdit = false;
 
   }
 
