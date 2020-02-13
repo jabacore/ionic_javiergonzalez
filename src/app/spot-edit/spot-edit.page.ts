@@ -24,26 +24,22 @@ export class SpotEditPage implements OnInit {
   description: string;
 
 
-  constructor(private activatedrouter: ActivatedRoute,private router: Router, private spotcrudService: SpotcrudService, public toastController: ToastController) { }
+  constructor(private activatedrouter: ActivatedRoute, private router: Router, private spotcrudService: SpotcrudService, public toastController: ToastController) { }
 
   ngOnInit() {
 
     this.id = this.activatedrouter.snapshot.params.id;
-    
-    this.spotcrudService.read_Spots().subscribe(data=>{
+
+    this.spotcrudService.read_Spots().subscribe(data => {
       data.map(e => {
-     if(e.payload.doc.id == this.id)
-      { 
-        this.spot = data
-        this.spotForm.get('title').setValue(this.spot.title);
-        this.spotForm.get('image').setValue(this.spot.image);
-        this.spotForm.get('description').setValue(this.spot.description);
-        
-         this.title= e.payload.doc.data()['title'].setValue(this.spot.title),
-         this.image = e.payload.doc.data()['image'].setValue(this.spot.image),
-         this.description = e.payload.doc.data()['description'].setValue(this.spot.description)      
-      }
-     })
+        if (e.payload.doc.id == this.id) {
+          this.spot.title = e.payload.doc.data()['title'].setValue(this.title)
+          this.spot.image = e.payload.doc.data()['image'].setValue(this.image)
+          this.spot.description = e.payload.doc.data()['description'].setValue(this.description)
+          
+
+        }
+      })
     });
 
 
@@ -75,6 +71,8 @@ export class SpotEditPage implements OnInit {
     toast.present();
   }
 
+
+
   UpdateRecord(recordRow) {
     let record = {};
     record['title'] = this.title;
@@ -82,10 +80,10 @@ export class SpotEditPage implements OnInit {
     record['description'] = this.description;
     this.spotcrudService.update_Spot(this.id, record);
     recordRow.isEdit = false;
-    
+
   }
 
-  
+
 
 
 }

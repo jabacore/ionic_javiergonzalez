@@ -10,14 +10,14 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form (ngSubmit)="onSubmit()">
+  <form (ngSubmit)="onSubmit()" *ngIf="spot">
     <ion-grid>
       <ion-row>
         <ion-col>
           <ion-label>Nombre:</ion-label>
         </ion-col>
         <ion-col>
-          <ion-input type="text" placeholder="..." [(ngModel)]="title" name="title"></ion-input>
+          <ion-input type="text" placeholder="..." [(ngModel)]="spot.title" name="title"></ion-input>
         </ion-col>
       </ion-row>  
       <ion-row>
@@ -25,7 +25,7 @@
           <ion-label>Imagen:</ion-label>
         </ion-col>
         <ion-col>
-          <ion-input type="url" placeholder="http://****" [(ngModel)]="image" name="image"></ion-input>
+          <ion-input type="url" placeholder="http://****" [(ngModel)]="spot.image" name="image"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -33,7 +33,7 @@
           <ion-label>Descripción:</ion-label>
         </ion-col>
         <ion-col>
-          <ion-textarea placeholder="****" [(ngModel)]="description" name="description"></ion-textarea>
+          <ion-textarea placeholder="****" [(ngModel)]="spot.description" name="description"></ion-textarea>
         </ion-col>
       </ion-row>
     </ion-grid>
