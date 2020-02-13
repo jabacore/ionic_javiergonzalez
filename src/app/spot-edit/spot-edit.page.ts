@@ -64,10 +64,10 @@ export class SpotEditPage implements OnInit {
     toast.present();
   }
   saveSpot() {
-    this.spotService.deleteSpot(this.id);
+    //this.spotService.deleteSpot(this.id);
     this.spot = this.spotForm.value;
-    let nextKey = this.spot.title.trim();
-    this.spot.id = nextKey;
+    //let nextKey = this.spot.title.trim();
+    this.spot.id = this.id;
     this.spotService.updateSpot(this.spot).subscribe();
     console.warn(this.spotForm.value);
   }
