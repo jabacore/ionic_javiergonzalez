@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+//import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { SpotService } from './shared/spot.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpotData } from './shared/spot-data';
@@ -26,8 +26,8 @@ import { SpotData } from './shared/spot-data';
     BrowserModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
-    AppRoutingModule,
-    InMemoryWebApiModule.forRoot(SpotData)
+    AppRoutingModule
+    //InMemoryWebApiModule.forRoot(SpotData)
 
   ],
   providers: [

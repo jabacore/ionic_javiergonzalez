@@ -10,7 +10,7 @@ import { Spot } from './spot';
   providedIn: 'root'
 })
 export class SpotService {
-  private spotsUrl = 'api/spots';
+  private spotsUrl = 'http://localhost:8000/spots';
 
   constructor(private http: HttpClient) { }
 
