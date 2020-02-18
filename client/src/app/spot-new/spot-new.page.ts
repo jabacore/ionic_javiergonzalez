@@ -52,7 +52,7 @@ export class SpotNewPage implements OnInit {
     this.spot = this.spotForm.value;
     let nextKey = this.spot.title.trim();
     this.spot.id = nextKey;
-    this.spotService.updateSpot(this.spot).subscribe();
+    this.spotService.createSpot(this.spot).subscribe();
     console.warn(this.spotForm.value);
   }
 

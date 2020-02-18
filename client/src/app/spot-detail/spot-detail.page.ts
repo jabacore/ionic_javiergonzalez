@@ -31,6 +31,7 @@ export class SpotDetailPage implements OnInit {
   editRecord(spot) {
       this.router.navigate(['spot-edit', spot.id])
   }
+
   async removeRecord(id) {
       const toast = await this.toastController.create({
           header: 'Eliminar Spot',
@@ -41,7 +42,7 @@ export class SpotDetailPage implements OnInit {
                   icon: 'delete',
                   text: 'ACEPTAR',
                   handler: () => {
-                      this.spotService.deleteSpot(id);
+                      this.spotService.deleteSpot(id); 
                       this.router.navigate(['home']);
                   }
               }, {
