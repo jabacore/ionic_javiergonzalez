@@ -3,24 +3,24 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var Spot = /** @class */ (function () {
-    function Spot(id, title, images ,description) {
+    function Spot(id, title, image ,description) {
         this.id = id;
         this.title = title;
-        this.images = images;
+        this.image = image;
         this.description = description;       
     }
     return Spot;
 }());
 var spots = [
-    new Spot(0, "Madrid","http://placehold.it/820x320","sisisisi"),
-    new Spot(1, "Zaragoza","http://placehold.it/820x320","sisisisi"),
-    new Spot(2, "Mallorca","http://placehold.it/820x320","sisisisi"),
+    new Spot(0, "menorca","http://www.inseguridad.org/sites/default/files/guadalcacin-4.jpg","sisisisi"),
+    new Spot(1, "Zaragoza","http://www.inseguridad.org/sites/default/files/guadalcacin-4.jpg","sisisisi"),
+    new Spot(2, "Mallorca","http://www.inseguridad.org/sites/default/files/guadalcacin-4.jpg","sisisisi"),
 ];
 function getSpots() {
     return spots;
 }
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:4200"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "http://localhost:8100"); /*"http://localhost:4200" */   // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -30,12 +30,12 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.post('/spots', bodyParser.json(), function (req, res) {
-    var sNew = new Spot(spots.length + 1, req.body.title,req.body.images, req.body.description);
+    var sNew = new Spot(spots.length + 1, req.body.title,req.body.image, req.body.description);
     spots.push(sNew);
     res.status(200).send({
         id: sNew.id,
         title: sNew.title,
-        images: sNew.images,
+        image: sNew.image,
         description: sNew.description       
     });
 });
@@ -58,10 +58,10 @@ function updateSpotsById(req, spotId) {
     s = spots.find(function (s) { return s.id == spotId; });
     var index = spots.indexOf(s);
         s.title = req.body.title,
-        s.images = req.body.images,
+        s.image = req.body.image,
         s.description = req.body.description;
         
-    products[index] = s;
+    spots[index] = s;
     return s;
 }
 app.put('/spots/:id', function (req, res) {

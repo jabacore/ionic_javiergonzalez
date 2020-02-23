@@ -1,5 +1,7 @@
 {
   "name": "ionic_indoorsnavarra",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

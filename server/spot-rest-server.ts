@@ -6,7 +6,7 @@ class Spot {
   constructor(
     public id: number,
     public title: string,
-    public images: string,
+    public image: string,
     public description: string,
    
   ) { }
@@ -44,7 +44,7 @@ function getSpots(): any[] {
 }
 
 app.use(function (req: any, res: any, next: any) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Origin", "0.0.0.0"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
@@ -71,7 +71,7 @@ app.post('/spots', bodyParser.json(), (req: any, res: any) => {
   res.status(200).send({ 
     id: sNew.id,
     title: sNew.title,
-    images: sNew.images,
+    image: sNew.image,
     description: sNew.description
     
    });
@@ -105,7 +105,7 @@ function updateSpotsById(req:any, spotId: number): any {
   let index = spots.indexOf(s);
 
   s.title =  req.body.title,
-  s.images =  req.body.images,
+  s.image =  req.body.image,
   s.description =  req.body.description
   
   spots[index] = s;
@@ -120,7 +120,7 @@ app.put('/spots/:id', function (req:any, res:any) {
 
 function deleteSpotsById(spotId: number): any {
   let s: any;
-  s = spots.find(p => p.id == spotId);
+  s = spots.find(s => s.id == spotId);
   let index = spots.indexOf(s);
   delete spots[index];
   return s;
