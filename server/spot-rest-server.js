@@ -20,7 +20,7 @@ function getSpots() {
     return spots;
 }
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:8100"); /*"http://localhost:4200" */   // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "*"); /*"http://localhost:4200" */   // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -40,7 +40,7 @@ app.post('/spots', bodyParser.json(), function (req, res) {
     });
 });
 app.get('/', function (req, res) {
-    res.send('The URL of spots is http://localhost:8000/spots');
+    res.send('The URL of spots is http://localhost:8100/spots');
 });
 app.get('/spots', function (req, res) {
     res.json(getSpots());
@@ -72,14 +72,14 @@ function deleteSpotsById(spotId) {
     var s;
     s = spots.find(function (s) { return s.id == spotId; });
     var index = spots.indexOf(s);
-    delete spots[index];
+    spots.splice(index,1);
     return s;
 }
 app.delete('/spots/:id', function (req, res) {
     res.json(deleteSpotsById(parseInt(req.params.id)));
     res.send('Got a DELETE request at /user');
 });
-var server = app.listen(8000, "localhost", function () {
+var server = app.listen(8100, "localhost", function () {
     var _a = server.address(), address = _a.address, port = _a.port;
     console.log('Listening on %s %s', address, port);
 });

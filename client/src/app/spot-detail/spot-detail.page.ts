@@ -41,7 +41,7 @@ export class SpotDetailPage implements OnInit {
                   icon: 'delete',
                   text: 'ACEPTAR',
                   handler: () => {
-                      this.spotService.deleteSpot(id);
+                      this.spotService.deleteSpot(id).subscribe();
                       this.router.navigate(['home']);
                   }
               }, {

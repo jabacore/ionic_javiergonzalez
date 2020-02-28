@@ -122,7 +122,6 @@ function deleteSpotsById(spotId: number): any {
   let s: any;
   s = spots.find(s => s.id == spotId);
   let index = spots.indexOf(s);
-  delete spots[index];
   return s;
 }
 
